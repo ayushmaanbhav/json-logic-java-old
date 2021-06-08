@@ -69,7 +69,7 @@ public class JsonLogicEvaluator {
         return data;
       }
 
-      String[] keys = name.split("\\.");
+      String[] keys = name.split("/");
       Object result = data;
 
       for(String partial : keys) {

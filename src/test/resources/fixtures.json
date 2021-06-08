@@ -2152,7 +2152,7 @@
   ],
   [
     {
-      "var": "a.b"
+      "var": "a/b"
     },
     {
       "a": {
@@ -2163,7 +2163,7 @@
   ],
   [
     {
-      "var": "a.q"
+      "var": "a/q"
     },
     {
       "a": {
@@ -2175,7 +2175,7 @@
   [
     {
       "var": [
-        "a.q",
+        "a/q",
         9
       ]
     },
@@ -2208,7 +2208,7 @@
   ],
   [
     {
-      "var": "1.1"
+      "var": "1/1"
     },
     [
       "apple",
@@ -2233,7 +2233,7 @@
         {
           "==": [
             {
-              "var": "pie.filling"
+              "var": "pie/filling"
             },
             "apple"
           ]
@@ -2261,8 +2261,8 @@
                 110
               ]
             },
-            "pie.filling",
-            "pie.eta"
+            "pie/filling",
+            "pie/eta"
           ]
         }
       ]
@@ -2295,14 +2295,14 @@
   ],
   [
     {
-      "var": "a.b.c"
+      "var": "a/b/c"
     },
     null,
     null
   ],
   [
     {
-      "var": "a.b.c"
+      "var": "a/b/c"
     },
     {
       "a": null
@@ -2311,7 +2311,7 @@
   ],
   [
     {
-      "var": "a.b.c"
+      "var": "a/b/c"
     },
     {
       "a": {
@@ -2459,31 +2459,31 @@
   [
     {
       "missing": [
-        "a.b"
+        "a/b"
       ]
     },
     null,
     [
-      "a.b"
+      "a/b"
     ]
   ],
   [
     {
       "missing": [
-        "a.b"
+        "a/b"
       ]
     },
     {
       "a": "apple"
     },
     [
-      "a.b"
+      "a/b"
     ]
   ],
   [
     {
       "missing": [
-        "a.b"
+        "a/b"
       ]
     },
     {
@@ -2492,13 +2492,13 @@
       }
     },
     [
-      "a.b"
+      "a/b"
     ]
   ],
   [
     {
       "missing": [
-        "a.b"
+        "a/b"
       ]
     },
     {
@@ -2511,8 +2511,8 @@
   [
     {
       "missing": [
-        "a.b",
-        "a.c"
+        "a/b",
+        "a/c"
       ]
     },
     {
@@ -2521,7 +2521,7 @@
       }
     },
     [
-      "a.c"
+      "a/c"
     ]
   ],
   "Missing some",
@@ -3066,7 +3066,7 @@
               "var": "accumulator"
             },
             {
-              "var": "current.qty"
+              "var": "current/qty"
             }
           ]
         },

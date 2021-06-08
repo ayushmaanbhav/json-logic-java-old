@@ -64,7 +64,7 @@ public class MissingExpression implements PreEvaluatedArgumentsExpression {
       Map.Entry entry = (Map.Entry) pair;
 
       if (MapLike.isEligible(entry.getValue())) {
-        keys.addAll(getFlatKeys(new MapLike(entry.getValue()), prefix + entry.getKey() + "."));
+        keys.addAll(getFlatKeys(new MapLike(entry.getValue()), prefix + entry.getKey() + "/"));
       }
       else {
         keys.add(prefix + entry.getKey());
