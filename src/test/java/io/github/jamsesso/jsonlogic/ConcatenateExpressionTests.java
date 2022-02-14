@@ -5,11 +5,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ConcatenateExpressionTests {
-  private static final JsonLogic jsonLogic = new JsonLogic();
+  private static final JsonLogic jsonLogic = JsonLogic.initialize();
 
   @Test
   public void testCat() throws JsonLogicException {
     assertEquals("hello world 2!", jsonLogic.apply("{\"cat\": [\"hello\", \" world \", 2, \"!\"]}", null));
-    assertEquals("pi is 3.14159", jsonLogic.apply("{\"cat\": [\"pi is \", 3.14159]}", null));
+    assertEquals("pi is 3.14", jsonLogic.apply("{\"cat\": [\"pi is \", 3.14159]}", null));
   }
 }

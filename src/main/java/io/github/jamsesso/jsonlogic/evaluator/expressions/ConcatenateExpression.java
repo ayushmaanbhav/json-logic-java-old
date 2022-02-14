@@ -1,7 +1,10 @@
 package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
+import io.github.jamsesso.jsonlogic.JsonLogic;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,10 +27,17 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
         if (obj instanceof Double && obj.toString().endsWith(".0")) {
           return ((Double) obj).intValue();
         }
-
+        else if (obj instanceof BigDecimal) {
+          return parseBigDecimal((BigDecimal) obj);
+        }
         return obj;
       })
       .map(Object::toString)
       .collect(Collectors.joining());
+  }
+
+  private Object parseBigDecimal(BigDecimal number) {
+      int scale = number.stripTrailingZeros().scale();
+      return new BigDecimal(number.doubleValue()).setScale(scale, JsonLogic.initialize().getJsonLogicConfig().getRoundingMode());
   }
 }

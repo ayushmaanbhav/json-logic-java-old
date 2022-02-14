@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class InExpressionTests {
-  private static final JsonLogic jsonLogic = new JsonLogic();
+  private static final JsonLogic jsonLogic = JsonLogic.initialize();
 
   @Test
   public void testStringIn() throws JsonLogicException {

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class CustomOperationTests {
-  private static final JsonLogic jsonLogic = new JsonLogic();
+  private static final JsonLogic jsonLogic = JsonLogic.initialize();
 
   @Test
   public void testCustomOp() throws JsonLogicException {

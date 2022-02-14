@@ -1,18 +1,21 @@
 package io.github.jamsesso.jsonlogic;
 
+import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 
 public class MathExpressionTests {
-  private static final JsonLogic jsonLogic = new JsonLogic();
+  private static final JsonLogic jsonLogic = JsonLogic.initialize();
 
   @Test
   public void testAdd() throws JsonLogicException {
     String json = "{\"+\":[4,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(6.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(6.0), result);
   }
 
   @Test
@@ -20,7 +23,7 @@ public class MathExpressionTests {
     String json = "{\"+\":[2,2,2,2,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(10.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(10.0), result);
   }
 
   @Test
@@ -28,7 +31,7 @@ public class MathExpressionTests {
     String json = "{\"+\" : \"3.14\"}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(3.14, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(3.14), result);
   }
 
   @Test
@@ -36,7 +39,7 @@ public class MathExpressionTests {
     String json = "{\"-\":[4,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(2.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(2.0), result);
   }
 
   @Test
@@ -44,7 +47,7 @@ public class MathExpressionTests {
     String json = "{\"-\": 2 }";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(-2.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(-2.0), result);
   }
 
   @Test
@@ -52,7 +55,7 @@ public class MathExpressionTests {
     String json = "{\"*\":[4,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(8.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(8.0), result);
   }
 
   @Test
@@ -60,7 +63,7 @@ public class MathExpressionTests {
     String json = "{\"*\":[2,2,2,2,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(32.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(32.0), result);
   }
 
   @Test
@@ -68,7 +71,7 @@ public class MathExpressionTests {
     String json = "{\"/\":[4,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(2.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(2.0), result);
   }
 
   @Test
@@ -84,7 +87,7 @@ public class MathExpressionTests {
     String json = "{\"%\": [101,2]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(1.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), result);
   }
 
   @Test
@@ -92,7 +95,7 @@ public class MathExpressionTests {
     String json = "{\"min\":[1,2,3]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(1.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), result);
   }
 
   @Test
@@ -100,7 +103,7 @@ public class MathExpressionTests {
     String json = "{\"max\":[1,2,3]}";
     Object result = jsonLogic.apply(json, null);
 
-    assertEquals(3.0, result);
+    assertEquals(ValueParser.parseDoubleToBigDecimal(3.0), result);
   }
 
   @Test

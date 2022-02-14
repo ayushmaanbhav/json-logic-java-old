@@ -1,5 +1,6 @@
 package io.github.jamsesso.jsonlogic;
 
+import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Test;
 
 import java.util.List;
@@ -7,17 +8,17 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class MergeExpressionTests {
-  private static final JsonLogic jsonLogic = new JsonLogic();
+  private static final JsonLogic jsonLogic = JsonLogic.initialize();
 
   @Test
   public void testMerge() throws JsonLogicException {
     Object result = jsonLogic.apply("{\"merge\": [[1, 2], [3, 4]]}", null);
 
     assertEquals(4, ((List) result).size());
-    assertEquals(1.0, ((List) result).get(0));
-    assertEquals(2.0, ((List) result).get(1));
-    assertEquals(3.0, ((List) result).get(2));
-    assertEquals(4.0, ((List) result).get(3));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), ((List) result).get(0));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(2.0), ((List) result).get(1));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(3.0), ((List) result).get(2));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(4.0), ((List) result).get(3));
   }
 
   @Test
@@ -25,9 +26,9 @@ public class MergeExpressionTests {
     Object result = jsonLogic.apply("{\"merge\": [1, 2, [3, 4]]}", null);
 
     assertEquals(4, ((List) result).size());
-    assertEquals(1.0, ((List) result).get(0));
-    assertEquals(2.0, ((List) result).get(1));
-    assertEquals(3.0, ((List) result).get(2));
-    assertEquals(4.0, ((List) result).get(3));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), ((List) result).get(0));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(2.0), ((List) result).get(1));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(3.0), ((List) result).get(2));
+    assertEquals(ValueParser.parseDoubleToBigDecimal(4.0), ((List) result).get(3));
   }
 }

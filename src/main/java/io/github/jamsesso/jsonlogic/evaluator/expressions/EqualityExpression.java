@@ -2,7 +2,9 @@ package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.JsonLogic;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
+import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class EqualityExpression implements PreEvaluatedArgumentsExpression {
@@ -37,16 +39,16 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
     }
 
     // Check numeric loose equality
-    if (left instanceof Number && right instanceof Number) {
-      return Double.valueOf(((Number) left).doubleValue()).equals(((Number) right).doubleValue());
+    if (left instanceof BigDecimal && right instanceof BigDecimal) {
+      return ((BigDecimal) left).compareTo((BigDecimal) right)==0;
     }
 
-    if (left instanceof Number && right instanceof String) {
-      return compareNumberToString((Number) left, (String) right);
+    if (left instanceof BigDecimal && right instanceof String) {
+      return compareNumberToString((BigDecimal) left, (String) right);
     }
 
-    if (left instanceof Number && right instanceof Boolean) {
-      return compareNumberToBoolean((Number) left, (Boolean) right);
+    if (left instanceof BigDecimal && right instanceof Boolean) {
+      return compareNumberToBoolean((BigDecimal) left, (Boolean) right);
     }
 
     // Check string loose equality
@@ -55,7 +57,7 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
     }
 
     if (left instanceof String && right instanceof Number) {
-      return compareNumberToString((Number) right, (String) left);
+      return compareNumberToString((BigDecimal) right, (String) left);
     }
 
     if (left instanceof String && right instanceof Boolean) {
@@ -68,7 +70,7 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
     }
 
     if (left instanceof Boolean && right instanceof Number) {
-      return compareNumberToBoolean((Number) right, (Boolean) left);
+      return compareNumberToBoolean((BigDecimal) right, (Boolean) left);
     }
 
     if (left instanceof Boolean && right instanceof String) {
@@ -80,25 +82,25 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
 
   }
 
-  private boolean compareNumberToString(Number left, String right) {
+  private boolean compareNumberToString(BigDecimal left, String right) {
     try {
       if (right.trim().isEmpty()) {
         right = "0";
       }
 
-      return Double.parseDouble(right) == left.doubleValue();
+      return ValueParser.parseStringToBigDecimal(right).compareTo(left)==0;
     }
     catch (NumberFormatException e) {
       return false;
     }
   }
 
-  private boolean compareNumberToBoolean(Number left, Boolean right) {
+  private boolean compareNumberToBoolean(BigDecimal left, Boolean right) {
     if (right) {
-      return left.doubleValue() == 1.0;
+      return left.compareTo(new BigDecimal(1.0))==0;
     }
 
-    return left.doubleValue() == 0.0;
+    return left.compareTo(new BigDecimal(0.0))==0;
   }
 
   private boolean compareStringToBoolean(String left, Boolean right) {

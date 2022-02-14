@@ -1,7 +1,9 @@
 package io.github.jamsesso.jsonlogic.ast;
 
 import com.google.gson.*;
+import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +39,7 @@ public final class JsonLogicParser {
       }
 
       if (primitive.isNumber()) {
-        return new JsonLogicNumber(primitive.getAsNumber());
+        return new JsonLogicNumber(ValueParser.parseStringToBigDecimal(primitive.getAsString()));
       }
 
       if (primitive.isBoolean() && primitive.getAsBoolean()) {

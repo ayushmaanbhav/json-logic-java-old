@@ -5,8 +5,11 @@ import io.github.jamsesso.jsonlogic.ast.JsonLogicParser;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluator;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicExpression;
 import io.github.jamsesso.jsonlogic.evaluator.expressions.*;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -15,11 +18,27 @@ public final class JsonLogic {
   private final List<JsonLogicExpression> expressions;
   private final Map<String, JsonLogicNode> parseCache;
   private JsonLogicEvaluator evaluator;
+  private final JsonLogicConfig jsonLogicConfig;
+  private static JsonLogic jsonLogic;
 
-  public JsonLogic() {
+  public static JsonLogic initialize(){
+      if(jsonLogic==null){
+        JsonLogicConfig jsonLogicConfig=new JsonLogicConfig(2, RoundingMode.HALF_UP);
+        jsonLogic=new JsonLogic(jsonLogicConfig);
+      }
+      return jsonLogic;
+  }
+
+  public static JsonLogic initialize(JsonLogicConfig jsonLogicConfig){
+    if(jsonLogic==null){
+      jsonLogic=new JsonLogic(jsonLogicConfig);
+    }
+    return jsonLogic;
+  }
+  private JsonLogic(JsonLogicConfig jsonLogicConfig) {
     this.expressions = new ArrayList<>();
     this.parseCache = new ConcurrentHashMap<>();
-
+    this.jsonLogicConfig=jsonLogicConfig;
     // Add default operations
     addOperation(MathExpression.ADD);
     addOperation(MathExpression.SUBTRACT);
@@ -55,6 +74,10 @@ public final class JsonLogic {
     addOperation(SubstringExpression.INSTANCE);
     addOperation(MissingExpression.ALL);
     addOperation(MissingExpression.SOME);
+  }
+
+  public JsonLogicConfig getJsonLogicConfig(){
+    return jsonLogicConfig;
   }
 
   public JsonLogic addOperation(String name, Function<Object[], Object> function) {
@@ -120,6 +143,10 @@ public final class JsonLogic {
         else if (f.isInfinite()) {
           return true;
         }
+      }
+      if(value instanceof BigDecimal){
+        BigDecimal bigDecimal=(BigDecimal)value;
+        return bigDecimal.compareTo(BigDecimal.valueOf(0.0))!=0;
       }
 
       return ((Number) value).doubleValue() != 0.0;

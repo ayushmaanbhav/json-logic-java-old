@@ -32,7 +32,7 @@ public class FixtureTests {
 
   @Test
   public void testAllFixtures() {
-    JsonLogic jsonLogic = new JsonLogic();
+    JsonLogic jsonLogic = JsonLogic.initialize();
     List<TestResult> failures = new ArrayList<>();
 
     for (Fixture fixture : FIXTURES) {
