@@ -3,12 +3,10 @@ package io.github.jamsesso.jsonlogic;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-
 import static org.junit.Assert.assertEquals;
 
 public class MathExpressionTests {
-  private static final JsonLogic jsonLogic = JsonLogic.initialize();
+  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
 
   @Test
   public void testAdd() throws JsonLogicException {

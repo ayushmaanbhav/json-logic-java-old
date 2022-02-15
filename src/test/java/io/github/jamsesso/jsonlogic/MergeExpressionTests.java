@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class MergeExpressionTests {
-  private static final JsonLogic jsonLogic = JsonLogic.initialize();
+  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
 
   @Test
   public void testMerge() throws JsonLogicException {

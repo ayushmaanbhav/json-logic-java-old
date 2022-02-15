@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class AllExpressionTests {
-  private static final JsonLogic jsonLogic = JsonLogic.initialize();
+  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
 
   @Test
   public void testEmptyArray() throws JsonLogicException {

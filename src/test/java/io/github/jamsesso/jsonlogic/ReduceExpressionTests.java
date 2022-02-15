@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ReduceExpressionTests {
-  private static final JsonLogic jsonLogic = JsonLogic.initialize();
+  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
 
   @Test
   public void testReduce() throws JsonLogicException {

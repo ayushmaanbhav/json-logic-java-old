@@ -4,7 +4,6 @@ import io.github.jamsesso.jsonlogic.JsonLogic;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +37,6 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
 
   private Object parseBigDecimal(BigDecimal number) {
       int scale = number.stripTrailingZeros().scale();
-      return new BigDecimal(number.doubleValue()).setScale(scale, JsonLogic.initialize().getJsonLogicConfig().getRoundingMode());
+      return new BigDecimal(number.doubleValue()).setScale(scale, JsonLogic.getInstance().getJsonLogicConfig().getRoundingMode());
   }
 }

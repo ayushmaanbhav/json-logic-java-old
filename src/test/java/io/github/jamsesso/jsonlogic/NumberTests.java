@@ -4,14 +4,13 @@ import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NumberTests {
   @Test
   public void testConvertAllNumericInputToDouble() throws JsonLogicException {
-    JsonLogic jsonLogic = JsonLogic.initialize();
+    JsonLogic jsonLogic = JsonLogic.getInstance();
     Map<String, Number> numbers = new HashMap<String, Number>() {{
       put("double", 1D);
       put("float", 1F);

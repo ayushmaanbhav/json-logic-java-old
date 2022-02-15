@@ -21,7 +21,7 @@ public final class JsonLogic {
   private final JsonLogicConfig jsonLogicConfig;
   private static JsonLogic jsonLogic;
 
-  public static JsonLogic initialize(){
+  public static JsonLogic getInstance(){
       if(jsonLogic==null){
         JsonLogicConfig jsonLogicConfig=new JsonLogicConfig(2, RoundingMode.HALF_UP);
         jsonLogic=new JsonLogic(jsonLogicConfig);
@@ -29,7 +29,7 @@ public final class JsonLogic {
       return jsonLogic;
   }
 
-  public static JsonLogic initialize(JsonLogicConfig jsonLogicConfig){
+  public static JsonLogic getInstance(JsonLogicConfig jsonLogicConfig){
     if(jsonLogic==null){
       jsonLogic=new JsonLogic(jsonLogicConfig);
     }
