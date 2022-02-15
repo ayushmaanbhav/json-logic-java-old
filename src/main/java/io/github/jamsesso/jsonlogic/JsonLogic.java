@@ -35,7 +35,7 @@ public final class JsonLogic {
     }
     return jsonLogic;
   }
-  private JsonLogic(JsonLogicConfig jsonLogicConfig) {
+  public JsonLogic(JsonLogicConfig jsonLogicConfig) {
     this.expressions = new ArrayList<>();
     this.parseCache = new ConcurrentHashMap<>();
     this.jsonLogicConfig=jsonLogicConfig;
