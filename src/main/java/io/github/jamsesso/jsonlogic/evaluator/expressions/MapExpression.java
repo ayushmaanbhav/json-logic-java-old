@@ -5,6 +5,7 @@ import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluator;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicExpression;
 import io.github.jamsesso.jsonlogic.utils.ArrayLike;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,7 @@ public class MapExpression implements JsonLogicExpression {
     // Use INSTANCE instead.
   }
 
+
   @Override
   public String key() {
     return "map";
@@ -28,7 +30,6 @@ public class MapExpression implements JsonLogicExpression {
     if (arguments.size() != 2) {
       throw new JsonLogicEvaluationException("map expects exactly 2 arguments");
     }
-
     Object maybeArray = evaluator.evaluate(arguments.get(0), data);
 
     if (!ArrayLike.isEligible(maybeArray)) {
@@ -37,10 +38,10 @@ public class MapExpression implements JsonLogicExpression {
 
     List<Object> result = new ArrayList<>();
 
-    for (Object item : new ArrayLike(maybeArray)) {
+    for (Object item : new ArrayLike(maybeArray,evaluator.getJsonLogicConfig())) {
       result.add(evaluator.evaluate(arguments.get(1), item));
     }
-
     return result;
   }
+
 }

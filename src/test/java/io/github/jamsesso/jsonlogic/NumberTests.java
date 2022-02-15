@@ -1,16 +1,18 @@
 package io.github.jamsesso.jsonlogic;
 
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NumberTests {
   @Test
   public void testConvertAllNumericInputToDouble() throws JsonLogicException {
-    JsonLogic jsonLogic = JsonLogic.getInstance();
+    JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(2, RoundingMode.HALF_UP));
     Map<String, Number> numbers = new HashMap<String, Number>() {{
       put("double", 1D);
       put("float", 1F);

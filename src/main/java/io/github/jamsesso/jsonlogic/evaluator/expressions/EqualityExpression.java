@@ -10,16 +10,12 @@ import java.util.List;
 
 public class EqualityExpression implements PreEvaluatedArgumentsExpression {
   public static final EqualityExpression INSTANCE = new EqualityExpression();
-  private  JsonLogicConfig jsonLogicConfig;
+
 
   private EqualityExpression() {
     // Only one instance can be constructed. Use EqualityExpression.INSTANCE
   }
-  private EqualityExpression(JsonLogicConfig jsonLogicConfig) {
-    // Only one instance can be constructed. Use EqualityExpression.INSTANCE
-    this.jsonLogicConfig=jsonLogicConfig;
 
-  }
 
   @Override
   public String key() {
@@ -27,7 +23,7 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     if (arguments.size() != 2) {
       throw new JsonLogicEvaluationException("equality expressions expect exactly 2 arguments");
     }
@@ -51,7 +47,7 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
     }
 
     if (left instanceof BigDecimal && right instanceof String) {
-      return compareNumberToString((BigDecimal) left, (String) right);
+      return compareNumberToString((BigDecimal) left, (String) right,jsonLogicConfig);
     }
 
     if (left instanceof BigDecimal && right instanceof Boolean) {
@@ -64,7 +60,7 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
     }
 
     if (left instanceof String && right instanceof Number) {
-      return compareNumberToString((BigDecimal) right, (String) left);
+      return compareNumberToString((BigDecimal) right, (String) left,jsonLogicConfig);
     }
 
     if (left instanceof String && right instanceof Boolean) {
@@ -89,13 +85,13 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
 
   }
 
-  private boolean compareNumberToString(BigDecimal left, String right) {
+  private boolean compareNumberToString(BigDecimal left, String right,JsonLogicConfig jsonLogicConfig) {
     try {
       if (right.trim().isEmpty()) {
         right = "0";
       }
 
-      return ValueParser.parseStringToBigDecimal(right,this.jsonLogicConfig).compareTo(left)==0;
+      return ValueParser.parseStringToBigDecimal(right,jsonLogicConfig).compareTo(left)==0;
     }
     catch (NumberFormatException e) {
       return false;
@@ -114,7 +110,5 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
     return JsonLogic.truthy(left) == right;
   }
 
-  public EqualityExpression withConfig(JsonLogicConfig jsonLogicConfig){
-    return new EqualityExpression(jsonLogicConfig);
-  }
+
 }

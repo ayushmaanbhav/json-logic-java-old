@@ -14,16 +14,11 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
   public static final NumericComparisonExpression LTE = new NumericComparisonExpression("<=");
 
   private final String key;
-  private JsonLogicConfig jsonLogicConfig;
 
   private NumericComparisonExpression(String key) {
     this.key = key;
   }
 
-  private NumericComparisonExpression(String key, JsonLogicConfig jsonLogicConfig) {
-    this.key = key;
-    this.jsonLogicConfig=jsonLogicConfig;
-  }
 
   @Override
   public String key() {
@@ -31,7 +26,7 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     // Convert the arguments to doubles
     int n = Math.min(arguments.size(), 3);
 
@@ -46,7 +41,7 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
 
       if (value instanceof String) {
         try {
-          values[i] = ValueParser.parseStringToBigDecimal((String) value,this.jsonLogicConfig);
+          values[i] = ValueParser.parseStringToBigDecimal((String) value,jsonLogicConfig);
         }
         catch (NumberFormatException e) {
           return false;
@@ -92,7 +87,5 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
         throw new JsonLogicEvaluationException("'" + key + "' is not a comparison expression");
     }
   }
-  public NumericComparisonExpression withConfig(JsonLogicConfig jsonLogicConfig){
-    return new NumericComparisonExpression(this.key,jsonLogicConfig);
-  }
+
 }

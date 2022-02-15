@@ -2,8 +2,10 @@ package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.JsonLogic;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +22,14 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     return arguments.stream()
       .map(obj -> {
         if (obj instanceof Double && obj.toString().endsWith(".0")) {
           return ((Double) obj).intValue();
         }
         else if (obj instanceof BigDecimal) {
-          return parseBigDecimal((BigDecimal) obj);
+          return parseBigDecimal((BigDecimal) obj,jsonLogicConfig);
         }
         return obj;
       })
@@ -35,8 +37,8 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
       .collect(Collectors.joining());
   }
 
-  private Object parseBigDecimal(BigDecimal number) {
+  private Object parseBigDecimal(BigDecimal number,JsonLogicConfig jsonLogicConfig) {
       int scale = number.stripTrailingZeros().scale();
-      return new BigDecimal(number.doubleValue()).setScale(scale, JsonLogic.getInstance().getJsonLogicConfig().getRoundingMode());
+      return new BigDecimal(number.toString()).setScale(scale, jsonLogicConfig.getRoundingMode());
   }
 }

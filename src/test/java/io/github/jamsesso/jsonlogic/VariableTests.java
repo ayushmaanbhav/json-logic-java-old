@@ -1,8 +1,10 @@
 package io.github.jamsesso.jsonlogic;
 
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Test;
 
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class VariableTests {
-  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
+  private static final JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(2, RoundingMode.HALF_UP));
 
   @Test
   public void testEmptyString() throws JsonLogicException {

@@ -1,6 +1,7 @@
 package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class StrictEqualityExpression implements PreEvaluatedArgumentsExpression
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     if (arguments.size() != 2) {
       throw new JsonLogicEvaluationException("equality expressions expect exactly 2 arguments");
     }

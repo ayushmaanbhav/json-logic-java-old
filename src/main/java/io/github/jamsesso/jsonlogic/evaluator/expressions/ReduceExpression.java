@@ -38,7 +38,7 @@ public class ReduceExpression implements JsonLogicExpression {
     Map<String, Object> context = new HashMap<>();
     context.put("accumulator", accumulator);
 
-    for (Object item : new ArrayLike(maybeArray)) {
+    for (Object item : new ArrayLike(maybeArray,evaluator.getJsonLogicConfig())) {
       context.put("current", item);
       context.put("accumulator", evaluator.evaluate(arguments.get(1), context));
     }

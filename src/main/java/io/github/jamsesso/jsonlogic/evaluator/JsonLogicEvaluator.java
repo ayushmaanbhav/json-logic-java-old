@@ -2,6 +2,7 @@ package io.github.jamsesso.jsonlogic.evaluator;
 
 import io.github.jamsesso.jsonlogic.ast.*;
 import io.github.jamsesso.jsonlogic.utils.ArrayLike;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
 import java.math.BigDecimal;
@@ -9,10 +10,12 @@ import java.util.*;
 
 public class JsonLogicEvaluator {
   private final Map<String, JsonLogicExpression> expressions = new HashMap<>();
+  private JsonLogicConfig jsonLogicConfig;
 
-  public JsonLogicEvaluator(Collection<JsonLogicExpression> expressions) {
+  public JsonLogicEvaluator(Collection<JsonLogicExpression> expressions,JsonLogicConfig jsonLogicConfig) {
     for (JsonLogicExpression expression : expressions) {
       this.expressions.put(expression.key(), expression);
+      this.jsonLogicConfig=jsonLogicConfig;
     }
   }
 
@@ -45,7 +48,7 @@ public class JsonLogicEvaluator {
 
     if (key == null) {
       return Optional.of(data)
-        .map(JsonLogicEvaluator::transform)
+        .map(obj->JsonLogicEvaluator.transform(obj,this.jsonLogicConfig))
         .orElse(evaluate(variable.getDefaultValue(), null));
     }
 
@@ -53,10 +56,10 @@ public class JsonLogicEvaluator {
       int index = ((Number) key).intValue();
 
       if (ArrayLike.isEligible(data)) {
-        ArrayLike list = new ArrayLike(data);
+        ArrayLike list = new ArrayLike(data,jsonLogicConfig);
 
         if (index >= 0 && index < list.size()) {
-          return transform(list.get(index));
+          return transform(list.get(index),this.jsonLogicConfig);
         }
       }
 
@@ -90,7 +93,7 @@ public class JsonLogicEvaluator {
 
   private Object evaluatePartialVariable(String key, Object data) throws JsonLogicEvaluationException {
     if (ArrayLike.isEligible(data)) {
-      ArrayLike list = new ArrayLike(data);
+      ArrayLike list = new ArrayLike(data,jsonLogicConfig);
       int index;
 
       try {
@@ -104,11 +107,11 @@ public class JsonLogicEvaluator {
         return null;
       }
 
-      return transform(list.get(index));
+      return transform(list.get(index),this.jsonLogicConfig);
     }
 
     if (data instanceof Map) {
-      return transform(((Map) data).get(key));
+      return transform(((Map) data).get(key),this.jsonLogicConfig);
     }
 
     return null;
@@ -134,11 +137,15 @@ public class JsonLogicEvaluator {
     return handler.evaluate(this, operation.getArguments(), data);
   }
 
-  public static Object transform(Object value) {
+  public static Object transform(Object value,JsonLogicConfig jsonLogicConfig) {
     if (value instanceof Number) {
-      return (BigDecimal) value;
+      return ValueParser.parseStringToBigDecimal(value.toString(),jsonLogicConfig);
     }
 
     return value;
+  }
+
+  public JsonLogicConfig getJsonLogicConfig(){
+    return this.jsonLogicConfig;
   }
 }

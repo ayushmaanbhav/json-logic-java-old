@@ -1,6 +1,7 @@
 package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.JsonLogic;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class NotExpression implements PreEvaluatedArgumentsExpression {
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) {
+  public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig) {
     boolean result;
 
     if (arguments.isEmpty()) {

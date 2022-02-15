@@ -1,7 +1,9 @@
 package io.github.jamsesso.jsonlogic;
 
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import org.junit.Test;
 
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class MissingExpressionTests {
-  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
+  private static final JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(2, RoundingMode.HALF_UP));
 
   @Test
   public void testMissing() throws JsonLogicException {

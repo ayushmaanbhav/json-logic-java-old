@@ -10,19 +10,19 @@ import java.util.stream.Collectors;
 public class ArrayLike implements List<Object> {
   private final List<Object> delegate;
 
-  @SuppressWarnings("unchecked")
-  public ArrayLike(Object data) {
+ // @SuppressWarnings("unchecked")
+  public ArrayLike(Object data,JsonLogicConfig jsonLogicConfig) {
     if (data instanceof List) {
       delegate = ((List<Object>) data)
               .stream()
-              .map(JsonLogicEvaluator::transform)
+              .map(obj->(JsonLogicEvaluator.transform(obj,jsonLogicConfig)))
               .collect(Collectors.toList());
     }
     else if (data != null && data.getClass().isArray()) {
       delegate = new ArrayList<>();
 
       for (int i = 0; i < Array.getLength(data); i++) {
-        delegate.add(i, JsonLogicEvaluator.transform(Array.get(data, i)));
+        delegate.add(i, JsonLogicEvaluator.transform(Array.get(data, i),jsonLogicConfig));
       }
     }
     else if (data instanceof JsonArray) {
@@ -32,7 +32,7 @@ public class ArrayLike implements List<Object> {
       delegate = new ArrayList<>();
 
       for (Object item : (Iterable) data) {
-        delegate.add(JsonLogicEvaluator.transform(item));
+        delegate.add(JsonLogicEvaluator.transform(item,jsonLogicConfig));
       }
     }
     else {

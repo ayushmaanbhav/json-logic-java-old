@@ -1,7 +1,9 @@
 package io.github.jamsesso.jsonlogic;
 
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import org.junit.Test;
 
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -12,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class InExpressionTests {
-  private static final JsonLogic jsonLogic = JsonLogic.getInstance();
+  private static final JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(2, RoundingMode.HALF_UP));
 
   @Test
   public void testStringIn() throws JsonLogicException {

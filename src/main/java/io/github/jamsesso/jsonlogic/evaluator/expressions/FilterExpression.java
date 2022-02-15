@@ -6,6 +6,7 @@ import io.github.jamsesso.jsonlogic.ast.JsonLogicArray;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluator;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicExpression;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class FilterExpression implements JsonLogicExpression {
 
     List<Object> result = new ArrayList<>();
 
-    for (Object item : new ArrayLike(maybeArray)) {
+    for (Object item : new ArrayLike(maybeArray,evaluator.getJsonLogicConfig())) {
       if(JsonLogic.truthy(evaluator.evaluate(arguments.get(1), item))) {
         result.add(item);
       }
@@ -45,4 +46,5 @@ public class FilterExpression implements JsonLogicExpression {
 
     return result;
   }
+
 }

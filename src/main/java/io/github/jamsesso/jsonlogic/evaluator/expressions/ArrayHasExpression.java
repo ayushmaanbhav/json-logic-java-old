@@ -6,6 +6,7 @@ import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluator;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicExpression;
 import io.github.jamsesso.jsonlogic.utils.ArrayLike;
 import io.github.jamsesso.jsonlogic.JsonLogic;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 public class ArrayHasExpression implements JsonLogicExpression {
   public static final ArrayHasExpression SOME = new ArrayHasExpression(true);
@@ -44,7 +45,7 @@ public class ArrayHasExpression implements JsonLogicExpression {
       throw new JsonLogicEvaluationException("first argument to some must be a valid array");
     }
 
-    for (Object item : new ArrayLike(maybeArray)) {
+    for (Object item : new ArrayLike(maybeArray,evaluator.getJsonLogicConfig())) {
       if(JsonLogic.truthy(evaluator.evaluate(arguments.get(1), item))) {
         return isSome;
       }
@@ -52,4 +53,5 @@ public class ArrayHasExpression implements JsonLogicExpression {
 
     return !isSome;
   }
+
 }

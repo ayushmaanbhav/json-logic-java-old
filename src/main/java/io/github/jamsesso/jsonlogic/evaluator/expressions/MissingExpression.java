@@ -2,6 +2,7 @@ package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
 import io.github.jamsesso.jsonlogic.utils.ArrayLike;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.MapLike;
 
 import java.math.BigDecimal;
@@ -17,13 +18,15 @@ public class MissingExpression implements PreEvaluatedArgumentsExpression {
     this.isSome = isSome;
   }
 
+
+
   @Override
   public String key() {
     return isSome ? "missing_some" : "missing";
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     if (!MapLike.isEligible(data)) {
       return arguments;
     }
@@ -34,7 +37,7 @@ public class MissingExpression implements PreEvaluatedArgumentsExpression {
     }
 
     Map map = new MapLike(data);
-    List options = isSome ? new ArrayLike(arguments.get(1)) : arguments;
+    List options = isSome ? new ArrayLike(arguments.get(1),jsonLogicConfig) : arguments;
     Set providedKeys = getFlatKeys(map);
     Set requiredKeys = new LinkedHashSet(options);
 
@@ -74,4 +77,7 @@ public class MissingExpression implements PreEvaluatedArgumentsExpression {
 
     return keys;
   }
+
+
+
 }

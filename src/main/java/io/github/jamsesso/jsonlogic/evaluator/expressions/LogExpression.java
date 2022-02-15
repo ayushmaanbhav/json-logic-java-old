@@ -1,6 +1,7 @@
 package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -20,7 +21,7 @@ public class LogExpression implements PreEvaluatedArgumentsExpression {
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     if (arguments.isEmpty()) {
       throw new JsonLogicEvaluationException("log operator requires exactly 1 argument");
     }

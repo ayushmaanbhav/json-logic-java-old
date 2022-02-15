@@ -20,7 +20,6 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
   private final String key;
   private final TriFunction<BigDecimal, BigDecimal,JsonLogicConfig, BigDecimal> reducer;
   private final int maxArguments;
-  private final JsonLogicConfig jsonLogicConfig;
 
   public MathExpression(String key, TriFunction<BigDecimal, BigDecimal,JsonLogicConfig, BigDecimal> reducer) {
     this(key, reducer, 0);
@@ -30,14 +29,8 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
     this.key = key;
     this.reducer = reducer;
     this.maxArguments = maxArguments;
-    this.jsonLogicConfig=new JsonLogicConfig(3, RoundingMode.HALF_UP);
   }
-  public MathExpression(String key, TriFunction<BigDecimal, BigDecimal, JsonLogicConfig,BigDecimal> reducer, int maxArguments,JsonLogicConfig jsonLogicConfig){
-    this.key = key;
-    this.reducer = reducer;
-    this.maxArguments = maxArguments;
-    this.jsonLogicConfig=jsonLogicConfig;
-  }
+
 
   @Override
   public String key() {
@@ -45,7 +38,7 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     if (arguments.isEmpty()) {
       return null;
     }
@@ -53,7 +46,7 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
     if (arguments.size() == 1) {
       if (key.equals("+") && arguments.get(0) instanceof String) {
         try {
-          return ValueParser.parseStringToBigDecimal((String) arguments.get(0),this.jsonLogicConfig);
+          return ValueParser.parseStringToBigDecimal((String) arguments.get(0),jsonLogicConfig);
         }
         catch (NumberFormatException e) {
           throw new JsonLogicEvaluationException(e);
@@ -77,7 +70,7 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
 
       if (value instanceof String) {
         try {
-          values[i] = ValueParser.parseStringToBigDecimal((String) value,this.jsonLogicConfig);
+          values[i] = ValueParser.parseStringToBigDecimal((String) value,jsonLogicConfig);
         }
         catch (NumberFormatException e) {
           return null;
@@ -96,13 +89,11 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
     BigDecimal accumulator = values[0];
 
     for (int i = 1; i < values.length && (i < maxArguments || maxArguments == 0); i++) {
-      accumulator = reducer.apply(accumulator, values[i],this.jsonLogicConfig);
+      accumulator = reducer.apply(accumulator, values[i],jsonLogicConfig);
     }
 
     return accumulator;
   }
 
-  public MathExpression withConfig(JsonLogicConfig jsonLogicConfig){
-    return new MathExpression(this.key,this.reducer,this.maxArguments,jsonLogicConfig);
-  }
+
 }

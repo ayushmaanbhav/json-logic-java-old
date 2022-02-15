@@ -19,41 +19,26 @@ public final class JsonLogic {
   private final Map<String, JsonLogicNode> parseCache;
   private JsonLogicEvaluator evaluator;
   private final JsonLogicConfig jsonLogicConfig;
-  private static JsonLogic jsonLogic;
 
-  public static JsonLogic getInstance(){
-      if(jsonLogic==null){
-        JsonLogicConfig jsonLogicConfig=new JsonLogicConfig(2, RoundingMode.HALF_UP);
-        jsonLogic=new JsonLogic(jsonLogicConfig);
-      }
-      return jsonLogic;
-  }
-
-  public static JsonLogic getInstance(JsonLogicConfig jsonLogicConfig){
-    if(jsonLogic==null){
-      jsonLogic=new JsonLogic(jsonLogicConfig);
-    }
-    return jsonLogic;
-  }
   public JsonLogic(JsonLogicConfig jsonLogicConfig) {
     this.expressions = new ArrayList<>();
     this.parseCache = new ConcurrentHashMap<>();
     this.jsonLogicConfig=jsonLogicConfig;
     // Add default operations
-    addOperation(MathExpression.ADD.withConfig(jsonLogicConfig));
-    addOperation(MathExpression.SUBTRACT.withConfig(jsonLogicConfig));
-    addOperation(MathExpression.MULTIPLY.withConfig(jsonLogicConfig));
-    addOperation(MathExpression.DIVIDE.withConfig(jsonLogicConfig));
-    addOperation(MathExpression.MODULO.withConfig(jsonLogicConfig));
-    addOperation(MathExpression.MIN.withConfig(jsonLogicConfig));
-    addOperation(MathExpression.MAX.withConfig(jsonLogicConfig));
-    addOperation(NumericComparisonExpression.GT.withConfig(jsonLogicConfig));
-    addOperation(NumericComparisonExpression.GTE.withConfig(jsonLogicConfig));
-    addOperation(NumericComparisonExpression.LT.withConfig(jsonLogicConfig));
-    addOperation(NumericComparisonExpression.LTE.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.ADD);
+    addOperation(MathExpression.SUBTRACT);
+    addOperation(MathExpression.MULTIPLY);
+    addOperation(MathExpression.DIVIDE);
+    addOperation(MathExpression.MODULO);
+    addOperation(MathExpression.MIN);
+    addOperation(MathExpression.MAX);
+    addOperation(NumericComparisonExpression.GT);
+    addOperation(NumericComparisonExpression.GTE);
+    addOperation(NumericComparisonExpression.LT);
+    addOperation(NumericComparisonExpression.LTE);
     addOperation(IfExpression.IF);
     addOperation(IfExpression.TERNARY);
-    addOperation(EqualityExpression.INSTANCE.withConfig(jsonLogicConfig));
+    addOperation(EqualityExpression.INSTANCE);
     addOperation(InequalityExpression.INSTANCE);
     addOperation(StrictEqualityExpression.INSTANCE);
     addOperation(StrictInequalityExpression.INSTANCE);
@@ -83,7 +68,7 @@ public final class JsonLogic {
   public JsonLogic addOperation(String name, Function<Object[], Object> function) {
     return addOperation(new PreEvaluatedArgumentsExpression() {
       @Override
-      public Object evaluate(List arguments, Object data) {
+      public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) {
         return function.apply(arguments.toArray());
       }
 
@@ -107,7 +92,7 @@ public final class JsonLogic {
     }
 
     if (evaluator == null) {
-      evaluator = new JsonLogicEvaluator(expressions);
+      evaluator = new JsonLogicEvaluator(expressions,jsonLogicConfig);
     }
 
     return evaluator.evaluate(parseCache.get(json), data);

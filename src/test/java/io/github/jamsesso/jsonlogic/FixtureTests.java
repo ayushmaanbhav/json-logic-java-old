@@ -1,6 +1,7 @@
 package io.github.jamsesso.jsonlogic;
 
 import com.google.gson.*;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.JsonValueExtractor;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -8,6 +9,7 @@ import org.junit.Test;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class FixtureTests {
@@ -32,7 +34,7 @@ public class FixtureTests {
 
   @Test
   public void testAllFixtures() {
-    JsonLogic jsonLogic = JsonLogic.getInstance();
+    JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(2, RoundingMode.HALF_UP));
     List<TestResult> failures = new ArrayList<>();
 
     for (Fixture fixture : FIXTURES) {

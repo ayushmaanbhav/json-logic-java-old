@@ -2,6 +2,7 @@ package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
 import io.github.jamsesso.jsonlogic.utils.ArrayLike;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.util.List;
 
@@ -12,13 +13,14 @@ public class InExpression implements PreEvaluatedArgumentsExpression {
     // Use INSTANCE instead.
   }
 
+
   @Override
   public String key() {
     return "in";
   }
 
   @Override
-  public Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException {
+  public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
     if (arguments.size() < 2) {
       return false;
     }
@@ -29,7 +31,7 @@ public class InExpression implements PreEvaluatedArgumentsExpression {
     }
 
     if (ArrayLike.isEligible(arguments.get(1))) {
-      return new ArrayLike(arguments.get(1)).contains(arguments.get(0));
+      return new ArrayLike(arguments.get(1),jsonLogicConfig).contains(arguments.get(0));
     }
 
     return false;

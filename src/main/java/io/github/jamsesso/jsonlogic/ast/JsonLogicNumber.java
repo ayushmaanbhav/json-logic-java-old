@@ -14,7 +14,7 @@ public class JsonLogicNumber implements JsonLogicPrimitive<BigDecimal> {
 
   @Override
   public BigDecimal getValue() {
-    return (BigDecimal) value;
+    return value;
   }
 
   @Override
