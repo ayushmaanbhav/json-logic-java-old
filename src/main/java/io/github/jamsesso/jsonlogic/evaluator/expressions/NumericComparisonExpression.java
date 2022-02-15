@@ -1,6 +1,7 @@
 package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
 import java.math.BigDecimal;
@@ -13,9 +14,15 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
   public static final NumericComparisonExpression LTE = new NumericComparisonExpression("<=");
 
   private final String key;
+  private JsonLogicConfig jsonLogicConfig;
 
   private NumericComparisonExpression(String key) {
     this.key = key;
+  }
+
+  private NumericComparisonExpression(String key, JsonLogicConfig jsonLogicConfig) {
+    this.key = key;
+    this.jsonLogicConfig=jsonLogicConfig;
   }
 
   @Override
@@ -39,7 +46,7 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
 
       if (value instanceof String) {
         try {
-          values[i] = ValueParser.parseStringToBigDecimal((String) value);
+          values[i] = ValueParser.parseStringToBigDecimal((String) value,this.jsonLogicConfig);
         }
         catch (NumberFormatException e) {
           return false;
@@ -84,5 +91,8 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
       default:
         throw new JsonLogicEvaluationException("'" + key + "' is not a comparison expression");
     }
+  }
+  public NumericComparisonExpression withConfig(JsonLogicConfig jsonLogicConfig){
+    return new NumericComparisonExpression(this.key,jsonLogicConfig);
   }
 }

@@ -2,6 +2,7 @@ package io.github.jamsesso.jsonlogic.evaluator.expressions;
 
 import io.github.jamsesso.jsonlogic.JsonLogic;
 import io.github.jamsesso.jsonlogic.evaluator.JsonLogicEvaluationException;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
 import java.math.BigDecimal;
@@ -9,9 +10,15 @@ import java.util.List;
 
 public class EqualityExpression implements PreEvaluatedArgumentsExpression {
   public static final EqualityExpression INSTANCE = new EqualityExpression();
+  private  JsonLogicConfig jsonLogicConfig;
 
   private EqualityExpression() {
     // Only one instance can be constructed. Use EqualityExpression.INSTANCE
+  }
+  private EqualityExpression(JsonLogicConfig jsonLogicConfig) {
+    // Only one instance can be constructed. Use EqualityExpression.INSTANCE
+    this.jsonLogicConfig=jsonLogicConfig;
+
   }
 
   @Override
@@ -88,7 +95,7 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
         right = "0";
       }
 
-      return ValueParser.parseStringToBigDecimal(right).compareTo(left)==0;
+      return ValueParser.parseStringToBigDecimal(right,this.jsonLogicConfig).compareTo(left)==0;
     }
     catch (NumberFormatException e) {
       return false;
@@ -105,5 +112,9 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
 
   private boolean compareStringToBoolean(String left, Boolean right) {
     return JsonLogic.truthy(left) == right;
+  }
+
+  public EqualityExpression withConfig(JsonLogicConfig jsonLogicConfig){
+    return new EqualityExpression(jsonLogicConfig);
   }
 }

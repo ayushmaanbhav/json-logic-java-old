@@ -7,6 +7,7 @@ import java.math.RoundingMode;
 public class JsonLogicConfig {
     private final int scale;
     private final RoundingMode roundingMode;
+    //private static JsonLogicConfig defaultConfig;
     public JsonLogicConfig(int scale,RoundingMode roundingMode){
         this.scale=scale;
         this.roundingMode=roundingMode;
@@ -17,4 +18,6 @@ public class JsonLogicConfig {
     public RoundingMode getRoundingMode(){
         return this.roundingMode;
     }
+
+    //public static get
 }

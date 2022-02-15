@@ -40,20 +40,20 @@ public final class JsonLogic {
     this.parseCache = new ConcurrentHashMap<>();
     this.jsonLogicConfig=jsonLogicConfig;
     // Add default operations
-    addOperation(MathExpression.ADD);
-    addOperation(MathExpression.SUBTRACT);
-    addOperation(MathExpression.MULTIPLY);
-    addOperation(MathExpression.DIVIDE);
-    addOperation(MathExpression.MODULO);
-    addOperation(MathExpression.MIN);
-    addOperation(MathExpression.MAX);
-    addOperation(NumericComparisonExpression.GT);
-    addOperation(NumericComparisonExpression.GTE);
-    addOperation(NumericComparisonExpression.LT);
-    addOperation(NumericComparisonExpression.LTE);
+    addOperation(MathExpression.ADD.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.SUBTRACT.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.MULTIPLY.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.DIVIDE.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.MODULO.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.MIN.withConfig(jsonLogicConfig));
+    addOperation(MathExpression.MAX.withConfig(jsonLogicConfig));
+    addOperation(NumericComparisonExpression.GT.withConfig(jsonLogicConfig));
+    addOperation(NumericComparisonExpression.GTE.withConfig(jsonLogicConfig));
+    addOperation(NumericComparisonExpression.LT.withConfig(jsonLogicConfig));
+    addOperation(NumericComparisonExpression.LTE.withConfig(jsonLogicConfig));
     addOperation(IfExpression.IF);
     addOperation(IfExpression.TERNARY);
-    addOperation(EqualityExpression.INSTANCE);
+    addOperation(EqualityExpression.INSTANCE.withConfig(jsonLogicConfig));
     addOperation(InequalityExpression.INSTANCE);
     addOperation(StrictEqualityExpression.INSTANCE);
     addOperation(StrictInequalityExpression.INSTANCE);
@@ -103,7 +103,7 @@ public final class JsonLogic {
 
   public Object apply(String json, Object data) throws JsonLogicException {
     if (!parseCache.containsKey(json)) {
-      parseCache.put(json, JsonLogicParser.parse(json));
+      parseCache.put(json, JsonLogicParser.parse(json,this.jsonLogicConfig));
     }
 
     if (evaluator == null) {

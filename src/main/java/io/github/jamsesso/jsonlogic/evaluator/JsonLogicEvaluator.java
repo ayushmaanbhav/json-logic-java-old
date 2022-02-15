@@ -4,6 +4,7 @@ import io.github.jamsesso.jsonlogic.ast.*;
 import io.github.jamsesso.jsonlogic.utils.ArrayLike;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class JsonLogicEvaluator {
@@ -135,7 +136,7 @@ public class JsonLogicEvaluator {
 
   public static Object transform(Object value) {
     if (value instanceof Number) {
-      return ValueParser.parseDoubleToBigDecimal(((Number) value).doubleValue());
+      return (BigDecimal) value;
     }
 
     return value;

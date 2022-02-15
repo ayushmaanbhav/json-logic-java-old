@@ -1,6 +1,8 @@
 package io.github.jamsesso.jsonlogic.ast;
 
 import com.google.gson.*;
+import io.github.jamsesso.jsonlogic.JsonLogic;
+import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import io.github.jamsesso.jsonlogic.utils.ValueParser;
 
 import java.math.BigDecimal;
@@ -15,16 +17,16 @@ public final class JsonLogicParser {
     // Utility class has no public constructor.
   }
 
-  public static JsonLogicNode parse(String json) throws JsonLogicParseException {
+  public static JsonLogicNode parse(String json, JsonLogicConfig jsonLogicConfig) throws JsonLogicParseException {
     try {
-      return parse(PARSER.parse(json));
+      return parse(PARSER.parse(json),jsonLogicConfig);
     }
     catch (JsonSyntaxException e) {
       throw new JsonLogicParseException(e);
     }
   }
 
-  private static JsonLogicNode parse(JsonElement root) throws JsonLogicParseException {
+  private static JsonLogicNode parse(JsonElement root, JsonLogicConfig jsonLogicConfig) throws JsonLogicParseException {
     // Handle null
     if (root.isJsonNull()) {
       return JsonLogicNull.NULL;
@@ -39,7 +41,7 @@ public final class JsonLogicParser {
       }
 
       if (primitive.isNumber()) {
-        return new JsonLogicNumber(ValueParser.parseStringToBigDecimal(primitive.getAsString()));
+        return new JsonLogicNumber(ValueParser.parseStringToBigDecimal(primitive.getAsString(),jsonLogicConfig));
       }
 
       if (primitive.isBoolean() && primitive.getAsBoolean()) {
@@ -56,7 +58,7 @@ public final class JsonLogicParser {
       List<JsonLogicNode> elements = new ArrayList<>(array.size());
 
       for (JsonElement element : array) {
-        elements.add(parse(element));
+        elements.add(parse(element,jsonLogicConfig));
       }
 
       return new JsonLogicArray(elements);
@@ -70,7 +72,7 @@ public final class JsonLogicParser {
     }
 
     String key = object.keySet().stream().findAny().get();
-    JsonLogicNode argumentNode = parse(object.get(key));
+    JsonLogicNode argumentNode = parse(object.get(key),jsonLogicConfig);
     JsonLogicArray arguments;
 
     // Always coerce single-argument operations into a JsonLogicArray with a single element.
