@@ -100,10 +100,10 @@ public class EqualityExpression implements PreEvaluatedArgumentsExpression {
 
   private boolean compareNumberToBoolean(BigDecimal left, Boolean right) {
     if (right) {
-      return left.compareTo(new BigDecimal(1.0))==0;
+      return left.compareTo(BigDecimal.ONE)==0;
     }
 
-    return left.compareTo(new BigDecimal(0.0))==0;
+    return left.compareTo(BigDecimal.ZERO)==0;
   }
 
   private boolean compareStringToBoolean(String left, Boolean right) {
