@@ -1,5 +1,7 @@
 package io.github.jamsesso.jsonlogic.utils;
 
+import io.github.jamsesso.jsonlogic.JsonLogicException;
+
 import java.math.BigDecimal;
 
 public class ValueParser {

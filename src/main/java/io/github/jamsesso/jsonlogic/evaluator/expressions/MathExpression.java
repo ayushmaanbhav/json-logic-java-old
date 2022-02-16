@@ -89,7 +89,12 @@ public class MathExpression implements PreEvaluatedArgumentsExpression {
     BigDecimal accumulator = values[0];
 
     for (int i = 1; i < values.length && (i < maxArguments || maxArguments == 0); i++) {
-      accumulator = reducer.apply(accumulator, values[i],jsonLogicConfig);
+      try {
+        accumulator = reducer.apply(accumulator, values[i], jsonLogicConfig);
+      }
+      catch (ArithmeticException ex){
+        throw new JsonLogicEvaluationException(ex);
+      }
     }
 
     return accumulator;

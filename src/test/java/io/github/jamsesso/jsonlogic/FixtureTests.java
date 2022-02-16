@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
@@ -40,8 +41,14 @@ public class FixtureTests {
     for (Fixture fixture : FIXTURES) {
       try {
         Object result = jsonLogic.apply(fixture.getJson(), fixture.getData());
-
-        if (!Objects.equals(result, fixture.getExpectedValue())) {
+        Object expect;
+        if(fixture.getExpectedValue() instanceof Number){
+          expect= new BigDecimal(fixture.getExpectedValue().toString()).setScale(1,RoundingMode.HALF_UP);
+        }
+        else{
+          expect=fixture.getExpectedValue();
+        }
+        if (!(Objects.equals(Objects.toString(result), Objects.toString(expect)))) {
           failures.add(new TestResult(fixture, result));
         }
       }
