@@ -131,7 +131,7 @@ public final class JsonLogic {
       }
       if(value instanceof BigDecimal){
         BigDecimal bigDecimal=(BigDecimal)value;
-        return bigDecimal.compareTo(BigDecimal.valueOf(0.0))!=0;
+        return bigDecimal.compareTo(BigDecimal.ZERO)!=0;
       }
 
       return ((Number) value).doubleValue() != 0.0;
