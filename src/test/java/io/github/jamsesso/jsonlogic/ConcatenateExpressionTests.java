@@ -12,7 +12,8 @@ public class ConcatenateExpressionTests {
 
   @Test
   public void testCat() throws JsonLogicException {
-    assertEquals("hello world 20!", jsonLogic.apply("{\"cat\": [\"hello\", \" world \", 20, \"!\"]}", null));
+    assertEquals("hello world 20.01!", jsonLogic.apply("{\"cat\": [\"hello\", \" world \", 20.006, \"!\"]}", null));
     assertEquals("pi is 3.14", jsonLogic.apply("{\"cat\": [\"pi is \", 3.14159]}", null));
+    assertEquals("pi is 3", jsonLogic.apply("{\"cat\": [\"pi is \", 3.0]}", null));
   }
 }

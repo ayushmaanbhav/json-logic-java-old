@@ -26,7 +26,7 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
     return arguments.stream()
       .map(obj -> {
          if (obj instanceof BigDecimal) {
-          return parseBigDecimal((BigDecimal) obj,jsonLogicConfig);
+          return parseBigDecimal((BigDecimal) obj);
         }
         return obj;
       })
@@ -34,8 +34,8 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
       .collect(Collectors.joining());
   }
 
-  private Object parseBigDecimal(BigDecimal number,JsonLogicConfig jsonLogicConfig) {
+  private Object parseBigDecimal(BigDecimal number) {
       int scale = number.stripTrailingZeros().scale();
-      return new BigDecimal(number.toString()).setScale(scale, jsonLogicConfig.getRoundingMode()).toString();
+      return new BigDecimal(number.toString()).setScale(scale).toPlainString();
   }
 }
