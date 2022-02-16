@@ -1,7 +1,6 @@
 package io.github.jamsesso.jsonlogic;
 
 import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
-import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,10 +20,10 @@ public class NumberTests {
       put("long", 1L);
     }};
 
-    Assert.assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"double\"}", numbers));
-    Assert.assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"float\"}", numbers));
-    Assert.assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"int\"}", numbers));
-    Assert.assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"short\"}", numbers));
-    Assert.assertEquals(ValueParser.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"long\"}", numbers));
+    Assert.assertEquals(TestUtil.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"double\"}", numbers));
+    Assert.assertEquals(TestUtil.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"float\"}", numbers));
+    Assert.assertEquals(TestUtil.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"int\"}", numbers));
+    Assert.assertEquals(TestUtil.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"short\"}", numbers));
+    Assert.assertEquals(TestUtil.parseDoubleToBigDecimal(1.0), jsonLogic.apply("{\"var\": \"long\"}", numbers));
   }
 }

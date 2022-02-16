@@ -1,7 +1,6 @@
 package io.github.jamsesso.jsonlogic;
 
 import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
-import io.github.jamsesso.jsonlogic.utils.ValueParser;
 import org.junit.Test;
 
 import java.math.RoundingMode;
@@ -27,12 +26,12 @@ public class VariableTests {
       put("pi", 3.14);
     }};
 
-    assertEquals(ValueParser.parseDoubleToBigDecimal(3.14), jsonLogic.apply("{\"var\": \"pi\"}", data));
+    assertEquals(TestUtil.parseDoubleToBigDecimal(3.14), jsonLogic.apply("{\"var\": \"pi\"}", data));
   }
 
   @Test
   public void testDefaultValue() throws JsonLogicException {
-    assertEquals(ValueParser.parseDoubleToBigDecimal(3.14), jsonLogic.apply("{\"var\": [\"pi\", 3.14]}", null));
+    assertEquals(TestUtil.parseDoubleToBigDecimal(3.14), jsonLogic.apply("{\"var\": [\"pi\", 3.14]}", null));
   }
 
   @Test
@@ -74,8 +73,8 @@ public class VariableTests {
     }};
 
     assertEquals("John", jsonLogic.apply("{\"var\": \"users/0/name\"}", data));
-    assertEquals(ValueParser.parseDoubleToBigDecimal(1337.0), jsonLogic.apply("{\"var\": \"users/0/followers\"}", data));
+    assertEquals(TestUtil.parseDoubleToBigDecimal(1337.0), jsonLogic.apply("{\"var\": \"users/0/followers\"}", data));
     assertEquals("Jane", jsonLogic.apply("{\"var\": \"users/1/name\"}", data));
-    assertEquals(ValueParser.parseDoubleToBigDecimal(2048.0), jsonLogic.apply("{\"var\": \"users/1/followers\"}", data));
+    assertEquals(TestUtil.parseDoubleToBigDecimal(2048.0), jsonLogic.apply("{\"var\": \"users/1/followers\"}", data));
   }
 }

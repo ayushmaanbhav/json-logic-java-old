@@ -34,7 +34,7 @@ public class FixtureTests {
 
   @Test
   public void testAllFixtures() {
-    JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(2, RoundingMode.HALF_UP));
+    JsonLogic jsonLogic = new JsonLogic(new JsonLogicConfig(1, RoundingMode.HALF_UP));
     List<TestResult> failures = new ArrayList<>();
 
     for (Fixture fixture : FIXTURES) {
