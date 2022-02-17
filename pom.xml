@@ -6,7 +6,7 @@
 
     <groupId>com.navi.insurance</groupId>
     <artifactId>json-logic</artifactId>
-    <version>0.2-RELEASE</version>
+    <version>0.3-RELEASE</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
