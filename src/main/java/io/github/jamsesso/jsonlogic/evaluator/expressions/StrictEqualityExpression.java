@@ -6,34 +6,35 @@ import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 import java.util.List;
 
 public class StrictEqualityExpression implements PreEvaluatedArgumentsExpression {
-  public static final StrictEqualityExpression INSTANCE = new StrictEqualityExpression();
+    public static final StrictEqualityExpression INSTANCE = new StrictEqualityExpression();
 
-  private StrictEqualityExpression() {
-    // Only one instance can be constructed. Use StrictEqualityExpression.INSTANCE
-  }
-
-  @Override
-  public String key() {
-    return "===";
-  }
-
-  @Override
-  public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
-    if (arguments.size() != 2) {
-      throw new JsonLogicEvaluationException("equality expressions expect exactly 2 arguments");
+    private StrictEqualityExpression() {
+        // Only one instance can be constructed. Use StrictEqualityExpression.INSTANCE
     }
 
-    Object left = arguments.get(0);
-    Object right = arguments.get(1);
-
-    if (left instanceof Number && right instanceof Number) {
-      return ((Number) left).doubleValue() == ((Number) right).doubleValue();
+    @Override
+    public String key() {
+        return "===";
     }
 
-    if (left == right) {
-      return true;
-    }
+    @Override
+    public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig)
+        throws JsonLogicEvaluationException {
+        if (arguments.size() != 2) {
+            throw new JsonLogicEvaluationException("equality expressions expect exactly 2 arguments");
+        }
 
-    return left != null && left.equals(right);
-  }
+        Object left = arguments.get(0);
+        Object right = arguments.get(1);
+
+        if (left instanceof Number && right instanceof Number) {
+            return ((Number) left).doubleValue() == ((Number) right).doubleValue();
+        }
+
+        if (left == right) {
+            return true;
+        }
+
+        return left != null && left.equals(right);
+    }
 }

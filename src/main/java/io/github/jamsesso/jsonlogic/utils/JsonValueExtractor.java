@@ -10,45 +10,40 @@ import java.util.List;
 import java.util.Map;
 
 public final class JsonValueExtractor {
-  private JsonValueExtractor() { }
+    private JsonValueExtractor() {}
 
-  public static Object extract(JsonElement element) {
-    if (element.isJsonObject()) {
-      Map<String, Object> map = new HashMap<>();
-      JsonObject object = element.getAsJsonObject();
+    public static Object extract(JsonElement element) {
+        if (element.isJsonObject()) {
+            Map<String, Object> map = new HashMap<>();
+            JsonObject object = element.getAsJsonObject();
 
-      for (String key : object.keySet()) {
-        map.put(key, extract(object.get(key)));
-      }
+            for (String key : object.keySet()) {
+                map.put(key, extract(object.get(key)));
+            }
 
-      return map;
+            return map;
+        } else if (element.isJsonArray()) {
+            List<Object> values = new ArrayList<>();
+
+            for (JsonElement item : element.getAsJsonArray()) {
+                values.add(extract(item));
+            }
+
+            return values;
+        } else if (element.isJsonNull()) {
+            return null;
+        } else if (element.isJsonPrimitive()) {
+            JsonPrimitive primitive = element.getAsJsonPrimitive();
+
+            if (primitive.isBoolean()) {
+                return primitive.getAsBoolean();
+            } else if (primitive.isNumber()) {
+                return primitive.getAsNumber().doubleValue();
+            } else {
+                return primitive.getAsString();
+            }
+        }
+
+        return element.toString();
     }
-    else if (element.isJsonArray()) {
-      List<Object> values = new ArrayList<>();
-
-      for (JsonElement item : element.getAsJsonArray()) {
-        values.add(extract(item));
-      }
-
-      return values;
-    }
-    else if (element.isJsonNull()) {
-      return null;
-    }
-    else if (element.isJsonPrimitive()) {
-      JsonPrimitive primitive = element.getAsJsonPrimitive();
-
-      if (primitive.isBoolean()) {
-        return primitive.getAsBoolean();
-      }
-      else if (primitive.isNumber()) {
-        return primitive.getAsNumber().doubleValue();
-      }
-      else {
-        return primitive.getAsString();
-      }
-    }
-
-    return element.toString();
-  }
 }

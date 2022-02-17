@@ -1,12 +1,12 @@
 package io.github.jamsesso.jsonlogic.ast;
 
 public interface JsonLogicPrimitive<T> extends JsonLogicNode {
-  T getValue();
+    T getValue();
 
-  JsonLogicPrimitiveType getPrimitiveType();
+    JsonLogicPrimitiveType getPrimitiveType();
 
-  @Override
-  default JsonLogicNodeType getType() {
-    return JsonLogicNodeType.PRIMITIVE;
-  }
+    @Override
+    default JsonLogicNodeType getType() {
+        return JsonLogicNodeType.PRIMITIVE;
+    }
 }
