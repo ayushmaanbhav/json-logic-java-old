@@ -11,23 +11,25 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MergeExpression implements PreEvaluatedArgumentsExpression {
-  public static final MergeExpression INSTANCE = new MergeExpression();
-  private MergeExpression() {
-    // Use INSTANCE instead.
-  }
+    public static final MergeExpression INSTANCE = new MergeExpression();
 
-  @Override
-  public String key() {
-    return "merge";
-  }
+    private MergeExpression() {
+        // Use INSTANCE instead.
+    }
 
-  @Override
-  public Object evaluate(List arguments, Object data,JsonLogicConfig jsonLogicConfig) throws JsonLogicEvaluationException {
-    return ((List<Object>) arguments).stream()
-      .map(obj -> ArrayLike.isEligible(obj) ? new ArrayLike(obj,jsonLogicConfig) : Collections.singleton(obj))
-      .map(Collection::stream)
-      .flatMap(Function.identity())
-      .collect(Collectors.toList());
-  }
+    @Override
+    public String key() {
+        return "merge";
+    }
+
+    @Override
+    public Object evaluate(List arguments, Object data, JsonLogicConfig jsonLogicConfig)
+        throws JsonLogicEvaluationException {
+        return ((List<Object>) arguments).stream()
+            .map(obj -> ArrayLike.isEligible(obj) ? new ArrayLike(obj, jsonLogicConfig) : Collections.singleton(obj))
+            .map(Collection::stream)
+            .flatMap(Function.identity())
+            .collect(Collectors.toList());
+    }
 
 }
