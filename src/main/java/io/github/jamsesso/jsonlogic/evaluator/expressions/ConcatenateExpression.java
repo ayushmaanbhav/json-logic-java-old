@@ -5,6 +5,7 @@ import io.github.jamsesso.jsonlogic.utils.JsonLogicConfig;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
@@ -24,12 +25,12 @@ public class ConcatenateExpression implements PreEvaluatedArgumentsExpression {
         throws JsonLogicEvaluationException {
         return arguments.stream()
             .map(obj -> {
-                if (obj instanceof BigDecimal) {
+                if (obj != null && obj instanceof BigDecimal) {
                     return parseBigDecimal((BigDecimal) obj);
                 }
                 return obj;
             })
-            .map(Object::toString)
+            .map(Objects::toString)
             .collect(Collectors.joining());
     }
 
