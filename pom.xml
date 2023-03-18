@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.navi.insurance</groupId>
+    <groupId>io.github.ayushmaanbhav</groupId>
     <artifactId>json-logic</artifactId>
     <version>0.4-RELEASE</version>
     <parent>
@@ -16,29 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <nexus.host>https://nexus.cmd.navi-tech.in</nexus.host>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>Releases</name>
-            <url>${nexus.host}/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Snapshot</name>
-            <url>${nexus.host}/repository/maven-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>nexus</id>
-            <name>Snapshot</name>
-            <url>${nexus.host}/repository/maven-snapshots</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
