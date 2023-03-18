@@ -4,6 +4,11 @@
 ## Java library for JSON-Logic for Fintech-industry, Rule-Engines or DSL (supports BigDecimal and currencies) with Full-Test-Coverage
 
 
+This parser accepts [JsonLogic](http://jsonlogic.com) rules and executes them in Java without Nashorn.
+
+The JsonLogic format is designed to allow you to share rules (logic) between front-end and back-end code (regardless of language difference), even to store logic along with a record in a database.
+JsonLogic is documented extensively at [JsonLogic.com](http://jsonlogic.com), including examples of every [supported operation](http://jsonlogic.com/operations.html) and a place to [try out rules in your browser](http://jsonlogic.com/play.html).
+
 ## Examples
 
 The public API for json-logic-java attempts to mimic the public API of the original Javascript implementation as close as possible.
